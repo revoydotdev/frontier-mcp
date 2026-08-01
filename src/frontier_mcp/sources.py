@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 import subprocess
 from pathlib import Path
@@ -10,6 +11,8 @@ from typing import Any
 import arxiv
 import requests
 from huggingface_hub import HfApi
+
+log = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------ arXiv
 
@@ -64,11 +67,17 @@ def _gh_token() -> str | None:
         if os.environ.get(v):
             return os.environ[v].strip()
     try:
-        p = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, timeout=5)
+        p = subprocess.run(
+            ["gh", "auth", "token"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
         if p.returncode == 0 and p.stdout.strip():
             return p.stdout.strip()
-    except Exception:
-        pass
+    except (OSError, subprocess.SubprocessError):
+        log.debug("unable to read a token from gh auth", exc_info=True)
     return None
 
 

@@ -36,3 +36,6 @@ line-length = 100
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["ARG001"]
+# The server boundary intentionally converts source failures into stable MCP envelopes,
+# and survey isolates providers so one outage cannot sink the combined result.
+"src/frontier_mcp/server.py" = ["BLE001"]
