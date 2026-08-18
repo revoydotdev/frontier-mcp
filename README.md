@@ -13,7 +13,7 @@ material-pulling engine.
 ```bash
 uv venv .venv --python 3.13
 uv pip install -e . --python .venv/bin/python
-claude mcp add frontier -s user -- /home/revelri/Dev/revelri/frontier-mcp/.venv/bin/python -m frontier_mcp
+claude mcp add frontier -s user -- "$(pwd)/.venv/bin/python" -m frontier_mcp
 ```
 
 ## Auth
